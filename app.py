@@ -698,14 +698,10 @@ RULES:
 - Do not provide definitive legal or financial advice.
 
 """
-
-                    with st.spinner(
-                        "open AI is comparing both documents..."
-                    ):
-
-                    comparison = ask_openai(
-                        comparison_prompt
-                    )
+with st.spinner("OpenAI is comparing both documents..."):
+    comparison = ask_openai(
+        comparison_prompt
+    )
 
                     st.session_state.comparison_result = comparison
 
