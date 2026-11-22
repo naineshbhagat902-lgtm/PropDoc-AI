@@ -177,20 +177,29 @@ with st.sidebar:
     """, unsafe_allow_html=True)
 
 
+
+# -------------------------------------------------
+# GLASS HERO HEADER
+# -------------------------------------------------
 st.markdown("""
 <div style="
-    background:linear-gradient(120deg,#142B49,#234B75);
-    padding:30px;
-    border-radius:18px;
-    margin-bottom:25px;
+    background: rgba(255,255,255,0.28);
+    border: 1px solid rgba(255,255,255,0.85);
+    border-radius: 28px;
+    padding: 35px;
+    margin-bottom: 25px;
+    backdrop-filter: blur(32px) saturate(190%);
+    -webkit-backdrop-filter: blur(32px) saturate(190%);
+    box-shadow: 0 15px 45px rgba(45,75,125,0.10),
+                inset 0 1px 2px rgba(255,255,255,0.95);
 ">
-    <h1 style="color:white;margin:0;">
+    <h1 style="color:#17243a !important; margin:0;">
         📄 PropDoc AI
     </h1>
-    <p style="color:#E2EAF4;font-size:17px;">
+    <p style="color:#344d6b; font-size:19px; font-weight:600;">
         Smart Property Document Analyzer
     </p>
-    <p style="color:#FFFFFF;font-size:14px;">
+    <p style="color:#526780; font-size:15px;">
         Extract, understand and analyze your property documents
         with Artificial Intelligence.
     </p>
