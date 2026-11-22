@@ -17,114 +17,165 @@ st.set_page_config(
     layout="wide",
 )
 
+
 # -------------------------------------------------
-# PROFESSIONAL UI DESIGN
+# IPHONE LIQUID GLASS UI
 # -------------------------------------------------
 st.markdown("""
 <style>
-.stApp {
-    background-color: #F4F7FB;
+:root {
+    --text-main: #17243a;
+    --text-muted: #687991;
 }
 
+/* Background */
+.stApp {
+    background:
+        radial-gradient(circle at 12% 12%, rgba(105,190,255,.30), transparent 34%),
+        radial-gradient(circle at 88% 18%, rgba(174,150,255,.24), transparent 36%),
+        radial-gradient(circle at 50% 90%, rgba(130,220,255,.22), transparent 40%),
+        linear-gradient(135deg,#eaf4ff,#f5f7ff 48%,#e9f1ff) !important;
+    color: var(--text-main);
+    font-family: Inter, sans-serif;
+}
+
+/* Layout */
 .block-container {
     max-width: 1450px;
     padding-top: 2rem;
-    padding-bottom: 3rem;
+    padding-bottom: 4rem;
 }
 
-header[data-testid="stHeader"] {
-    background: transparent;
+/* Headings */
+h1,h2,h3,h4 {
+    color: #17243a !important;
+    font-weight: 750 !important;
 }
 
+/* Glass Sidebar */
+section[data-testid="stSidebar"] {
+    background: rgba(255,255,255,.22) !important;
+    border-right: 1px solid rgba(255,255,255,.65);
+    backdrop-filter: blur(35px) saturate(180%);
+    -webkit-backdrop-filter: blur(35px) saturate(180%);
+    box-shadow: 8px 0 35px rgba(60,100,160,.08);
+}
 section[data-testid="stSidebar"] > div {
-    background: #142B49;
+    background: transparent !important;
+    padding: 2rem 1.2rem;
+}
+section[data-testid="stSidebar"] h1,
+section[data-testid="stSidebar"] h2,
+section[data-testid="stSidebar"] h3,
+section[data-testid="stSidebar"] p,
+section[data-testid="stSidebar"] label {
+    color: #263b58 !important;
 }
 
-section[data-testid="stSidebar"] * {
-    color: #FFFFFF;
+/* Glass Metric Cards */
+[data-testid="stMetric"] {
+    background: rgba(255,255,255,.30) !important;
+    border: 1px solid rgba(255,255,255,.82) !important;
+    border-radius: 23px !important;
+    padding: 20px !important;
+    backdrop-filter: blur(28px) saturate(180%);
+    box-shadow: 0 12px 35px rgba(50,80,130,.09),
+                inset 0 1px 2px white;
+    transition: all .3s ease;
+}
+[data-testid="stMetric"]:hover {
+    transform: translateY(-5px);
+}
+[data-testid="stMetricLabel"] {
+    color: #687991 !important;
+}
+[data-testid="stMetricValue"] {
+    color: #172b49 !important;
 }
 
-section[data-testid="stSidebar"] button {
-    color: #FFFFFF;
+/* Glass Inputs */
+.stTextInput input,
+.stNumberInput input,
+.stTextArea textarea,
+[data-baseweb="select"] > div {
+    background: rgba(255,255,255,.40) !important;
+    border: 1px solid rgba(255,255,255,.90) !important;
+    border-radius: 14px !important;
+    color: #17243a !important;
+    backdrop-filter: blur(18px);
 }
 
-h1, h2, h3 {
-    color: #142B49;
-    font-weight: 700;
-}
-
-p, label, .stMarkdown {
-    color: #334155;
-}
-
+/* Glass Buttons */
 .stButton > button,
 .stDownloadButton > button {
-    background: #E98235;
-    color: white;
-    border: none;
-    border-radius: 10px;
-    padding: 0.55rem 1.2rem;
-    font-weight: 600;
+    background: rgba(255,255,255,.38) !important;
+    color: #1b4775 !important;
+    border: 1px solid rgba(255,255,255,.90) !important;
+    border-radius: 16px !important;
+    backdrop-filter: blur(22px);
+    box-shadow: 0 7px 22px rgba(50,90,150,.09),
+                inset 0 1px 2px white;
+    font-weight: 700;
+    transition: all .3s ease;
 }
-
 .stButton > button:hover,
 .stDownloadButton > button:hover {
-    background: #D66F25;
-    color: white;
-    border: none;
+    background: rgba(255,255,255,.72) !important;
+    transform: translateY(-3px);
 }
 
+/* Glass Upload */
 div[data-testid="stFileUploader"] {
-    background: white;
-    border: 1px dashed #A8B8CC;
-    border-radius: 14px;
+    background: rgba(255,255,255,.25);
+    border: 1px solid rgba(255,255,255,.80);
+    border-radius: 22px;
     padding: 15px;
+    backdrop-filter: blur(25px);
 }
 
-div[data-testid="stTextArea"] textarea,
-div[data-testid="stTextInput"] input {
-    border-radius: 10px;
-    background: white;
+/* Alerts and Dividers */
+[data-testid="stAlert"],
+[data-testid="stExpander"] {
+    border-radius: 19px !important;
+    border: 1px solid rgba(255,255,255,.75);
 }
-
-div[data-testid="stSelectbox"] > div {
-    border-radius: 10px;
-}
-
-div[data-testid="stAlert"] {
-    border-radius: 12px;
-}
-
 hr {
-    border-color: #DCE4EF;
+    border-color: rgba(255,255,255,.75) !important;
 }
 
+/* Mobile */
+@media(max-width:768px) {
+    .block-container { padding: 1rem; }
+    h1 { font-size: 28px !important; }
+}
 </style>
 """, unsafe_allow_html=True)
 
 
 
+
 # -------------------------------------------------
-# PROFESSIONAL HEADER
+# GLASS SIDEBAR
 # -------------------------------------------------
 with st.sidebar:
     st.markdown("""
-    <div style="padding:15px 5px 25px 5px;">
-        <h2 style="color:white;">🏢 PropDoc AI</h2>
-        <p style="color:#DCE5F0;">
-            Smart Property Document Intelligence
+    <div style="padding:15px 5px;">
+        <h2 style="color:#17243a;">📄 PropDoc AI</h2>
+        <p style="color:#687991;">
+            Smart Document Intelligence
         </p>
-        <hr style="border-color:#49617D;">
-        <p style="color:white;">📄 Document Workspace</p>
-        <p style="color:white;">🤖 AI Analysis</p>
-        <p style="color:white;">🔍 Document Verification</p>
-        <p style="color:white;">💬 AI Assistant</p>
-        <hr style="border-color:#49617D;">
-        <p style="color:#DCE5F0;font-size:12px;">
+        <hr>
+        <p style="color:#263b58;">📁 Document Workspace</p>
+        <p style="color:#263b58;">🤖 AI Analysis</p>
+        <p style="color:#263b58;">🔍 Document Verification</p>
+        <p style="color:#263b58;">💬 AI Assistant</p>
+        <hr>
+        <p style="color:#687991;font-size:12px;">
             Powered by Gemini AI
         </p>
     </div>
     """, unsafe_allow_html=True)
+
 
 st.markdown("""
 <div style="
