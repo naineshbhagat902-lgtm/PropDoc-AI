@@ -196,13 +196,15 @@ st.markdown("""
     <h1 style="color:#17243a !important; margin:0;">
         📄 PropDoc AI
     </h1>
+
     <p style="color:#344d6b; font-size:19px; font-weight:600;">
-        Smart Property Document Analyzer
+        Smart Document Intelligence
     </p>
     <p style="color:#526780; font-size:15px;">
-        Extract, understand and analyze your property documents
+        Upload, read, compare and understand any document
         with Artificial Intelligence.
     </p>
+
 </div>
 """, unsafe_allow_html=True)
 
@@ -318,7 +320,7 @@ def get_document_context() -> str:
 # 4. PDF UPLOAD
 # -------------------------------------------------
 uploaded_file = st.file_uploader(
-    "Upload your property document",
+    "Upload your document",
     type=["pdf"],
 )
 
@@ -443,7 +445,7 @@ if st.session_state.extracted_text:
 # -------------------------------------------------
 if st.session_state.extracted_text.strip():
     st.divider()
-    st.header("🤖 AI Property Document Analysis")
+    st.header("🤖 Smart Document Analysis")
     st.write(
         "Gemini will summarize the extracted text, identify details that "
         "are explicitly present, and flag items that may need manual review."
@@ -455,37 +457,61 @@ if st.session_state.extracted_text.strip():
         key="response_language",
     )
 
-    if st.button("✨ Analyze My Property Document", type="primary"):
+    if st.button("✨ Analyze My Document", type="primary"):
         try:
             document_text = get_document_context()
+    
             analysis_prompt = f"""
-You are PropDoc AI, a careful assistant that explains property documents.
-Analyze only the document text provided below. Do not invent facts or fill
-missing fields using assumptions.
+You are PropDoc AI, an intelligent universal document
+reader and information analysis assistant.
+
+Automatically identify the document type.
+
+The document may be:
+- Property or real estate
+- Legal or agreement
+- Educational or certificate
+- Business or company
+- Financial or banking
+- Identity document
+- Government document
+- General document
+
+Do not assume every document is property-related.
 
 Write the response in {response_language}.
 
 Use these sections:
-1. Simple document summary
-2. Property and land details explicitly found
-3. Names of owners / parties explicitly found
-4. Survey number, Gat number, area, village, taluka and district, if present
-5. Important dates, order numbers and reference numbers, if present
-6. Compensation or payment details, only if explicitly stated
-7. Clauses, inconsistencies, missing information, or unclear text that deserve
-   human verification
-8. Questions the user should ask the relevant government office or lawyer
 
-For every important extracted fact, quote a short supporting phrase from the
-provided text or identify its page number when possible. If a field is absent
-or unreadable, write "Not found in extracted text". Distinguish facts from
-possible concerns. Do not declare a title valid/invalid, determine legal
-ownership, calculate an individual's entitlement without complete ownership
-shares and official figures, or give a definitive legal opinion.
+1. Document Type
+2. Simple Document Summary
+3. Important Information
+4. Names and Organizations
+5. Important Dates and Reference Numbers
+6. Amounts, Payments and Financial Details
+7. Important Clauses and Conditions
+8. Missing or Unclear Information
+9. Possible Inconsistencies
+10. Important Things to Remember
+
+Extract information according to the actual document type.
+For example, extract marks from educational documents,
+clauses from legal agreements, and property details
+from property documents.
+
+RULES:
+- Use only the provided document text.
+- Never invent information.
+- Write "Not found" when information is unavailable.
+- Mention page numbers or short supporting quotes when possible.
+- Distinguish facts from possible concerns.
+- Do not claim that a document is authentic or legally valid.
+- Do not provide definitive legal or financial advice.
 
 DOCUMENT TEXT:
 {document_text}
 """
+
             with st.spinner("Gemini is analyzing your document..."):
                 result = ask_gemini(analysis_prompt)
 
@@ -519,7 +545,7 @@ if st.session_state.extracted_text.strip():
     with st.form("document_question_form", clear_on_submit=True):
         user_question = st.text_input(
             "Your question",
-            placeholder="Example: What survey number is mentioned?",
+           placeholder="Example: What are the important details in this document?",
         )
         submitted = st.form_submit_button("Ask PropDoc AI")
 
@@ -530,8 +556,8 @@ if st.session_state.extracted_text.strip():
             try:
                 document_text = get_document_context()
                 question_prompt = f"""
-You are PropDoc AI, an assistant that answers questions about a property
-document. Answer in {response_language if 'response_language' in st.session_state else 'English'}.
+You are PropDoc AI, a universal assistant that answers questions
+about any type of document. Answer in {response_language if 'response_language' in st.session_state else 'English'}.
 
 Use only the document text below. Do not guess or invent information.
 If the answer is not present or the OCR text is unclear, say so clearly.
@@ -568,6 +594,6 @@ USER QUESTION:
 # -------------------------------------------------
 st.divider()
 st.caption(
-    "PropDoc AI | Smart Property Document Analyzer | "
+       "PropDoc AI | Smart Document Intelligence | "
     "AI output must be checked against original records."
 )
