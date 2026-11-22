@@ -475,7 +475,7 @@ DOCUMENT TEXT:
 """
 
             with st.spinner("Gemini is analyzing your document..."):
-                result = ask_gemini(analysis_prompt)
+                result = ask_openai(analysis_prompt)
 
             st.session_state.ai_analysis = result
             st.success("AI analysis completed!")
@@ -535,7 +535,7 @@ USER QUESTION:
 {user_question}
 """
                 with st.spinner("Finding the answer in your document..."):
-                    answer = ask_gemini(question_prompt)
+                  answer = ask_openai(question_prompt)
 
                 st.session_state.chat_history.append(
                     {"question": user_question, "answer": answer}
@@ -703,9 +703,9 @@ RULES:
                         "open AI is comparing both documents..."
                     ):
 
-                        comparison = ask_gemini(
-                            comparison_prompt
-                        )
+                    comparison = ask_openai(
+    comparison_prompt
+)
 
                     st.session_state.comparison_result = comparison
 
