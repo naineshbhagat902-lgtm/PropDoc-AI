@@ -17,17 +17,141 @@ st.set_page_config(
     layout="wide",
 )
 
-st.title("📄 PropDoc AI")
-st.subheader("Smart Property Document Analyzer")
-st.write(
-    "Upload property documents, extract Marathi/Hindi/English text, "
-    "and use AI to understand the document."
-)
+# -------------------------------------------------
+# PROFESSIONAL UI DESIGN
+# -------------------------------------------------
+st.markdown("""
+<style>
+.stApp {
+    background-color: #F4F7FB;
+}
+
+.block-container {
+    max-width: 1450px;
+    padding-top: 2rem;
+    padding-bottom: 3rem;
+}
+
+header[data-testid="stHeader"] {
+    background: transparent;
+}
+
+section[data-testid="stSidebar"] > div {
+    background: #142B49;
+}
+
+section[data-testid="stSidebar"] * {
+    color: #FFFFFF;
+}
+
+section[data-testid="stSidebar"] button {
+    color: #FFFFFF;
+}
+
+h1, h2, h3 {
+    color: #142B49;
+    font-weight: 700;
+}
+
+p, label, .stMarkdown {
+    color: #334155;
+}
+
+.stButton > button,
+.stDownloadButton > button {
+    background: #E98235;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 0.55rem 1.2rem;
+    font-weight: 600;
+}
+
+.stButton > button:hover,
+.stDownloadButton > button:hover {
+    background: #D66F25;
+    color: white;
+    border: none;
+}
+
+div[data-testid="stFileUploader"] {
+    background: white;
+    border: 1px dashed #A8B8CC;
+    border-radius: 14px;
+    padding: 15px;
+}
+
+div[data-testid="stTextArea"] textarea,
+div[data-testid="stTextInput"] input {
+    border-radius: 10px;
+    background: white;
+}
+
+div[data-testid="stSelectbox"] > div {
+    border-radius: 10px;
+}
+
+div[data-testid="stAlert"] {
+    border-radius: 12px;
+}
+
+hr {
+    border-color: #DCE4EF;
+}
+
+</style>
+""", unsafe_allow_html=True)
+
+
+
+# -------------------------------------------------
+# PROFESSIONAL HEADER
+# -------------------------------------------------
+with st.sidebar:
+    st.markdown("""
+    <div style="padding:15px 5px 25px 5px;">
+        <h2 style="color:white;">🏢 PropDoc AI</h2>
+        <p style="color:#DCE5F0;">
+            Smart Property Document Intelligence
+        </p>
+        <hr style="border-color:#49617D;">
+        <p style="color:white;">📄 Document Workspace</p>
+        <p style="color:white;">🤖 AI Analysis</p>
+        <p style="color:white;">🔍 Document Verification</p>
+        <p style="color:white;">💬 AI Assistant</p>
+        <hr style="border-color:#49617D;">
+        <p style="color:#DCE5F0;font-size:12px;">
+            Powered by Gemini AI
+        </p>
+    </div>
+    """, unsafe_allow_html=True)
+
+st.markdown("""
+<div style="
+    background:linear-gradient(120deg,#142B49,#234B75);
+    padding:30px;
+    border-radius:18px;
+    margin-bottom:25px;
+">
+    <h1 style="color:white;margin:0;">
+        📄 PropDoc AI
+    </h1>
+    <p style="color:#E2EAF4;font-size:17px;">
+        Smart Property Document Analyzer
+    </p>
+    <p style="color:#FFFFFF;font-size:14px;">
+        Extract, understand and analyze your property documents
+        with Artificial Intelligence.
+    </p>
+</div>
+""", unsafe_allow_html=True)
+
 st.info(
     "PropDoc AI provides document-reading assistance, not legal advice. "
-    "Always verify ownership, area, compensation, and legal conclusions "
-    "with the relevant government records and a qualified property lawyer."
+    "Always verify important details with official records "
+    "and a qualified property lawyer."
 )
+
 st.divider()
 
 
