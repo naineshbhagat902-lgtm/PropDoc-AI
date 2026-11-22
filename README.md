@@ -37,11 +37,8 @@ Upload, read, compare and understand documents with Artificial Intelligence.
 
 | Project Resource | Open |
 |---|---|
-| 🚀 Live Streamlit Website | [Launch PropDoc AI](https://propdoc-ai-ulramnculq8wsxwlnc6wly.streamlit.app/) |
-| 💻 GitHub Repository | Add your repository link here |
-| 📖 Documentation | Explore the project README |
+| 🚀 Live.project | [PropDoc AI](https://propdoc-ai-ulramnculq8wsxwlnc6wly.streamlit.app/) |
 
----
 
 ## 🧠 About the Project
 
