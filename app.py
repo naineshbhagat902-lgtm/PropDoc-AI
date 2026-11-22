@@ -703,9 +703,9 @@ RULES:
                         "open AI is comparing both documents..."
                     ):
 
-                    comparison = ask_openai(
-    comparison_prompt
-)
+                   comparison = ask_openai(
+                    comparison_prompt
+                    )
 
                     st.session_state.comparison_result = comparison
 
