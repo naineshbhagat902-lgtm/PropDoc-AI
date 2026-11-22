@@ -178,35 +178,23 @@ with st.sidebar:
 
 
 
+
 # -------------------------------------------------
 # GLASS HERO HEADER
 # -------------------------------------------------
 st.markdown("""
-<div style="
-    background: rgba(255,255,255,0.28);
-    border: 1px solid rgba(255,255,255,0.85);
-    border-radius: 28px;
-    padding: 35px;
-    margin-bottom: 25px;
-    backdrop-filter: blur(32px) saturate(190%);
-    -webkit-backdrop-filter: blur(32px) saturate(190%);
-    box-shadow: 0 15px 45px rgba(45,75,125,0.10),
-                inset 0 1px 2px rgba(255,255,255,0.95);
-">
-    <h1 style="color:#17243a !important; margin:0;">
-        📄 PropDoc AI
-    </h1>
-
-    <p style="color:#344d6b; font-size:19px; font-weight:600;">
-        Smart Document Intelligence
-    </p>
-    <p style="color:#526780; font-size:15px;">
-        Upload, read, compare and understand any document
-        with Artificial Intelligence.
-    </p>
-
+<div style="background: rgba(255,255,255,0.28);
+border: 1px solid rgba(255,255,255,0.85);
+border-radius: 28px;
+padding: 35px;
+margin-bottom: 25px;
+backdrop-filter: blur(32px) saturate(190%);
+-webkit-backdrop-filter: blur(32px) saturate(190%);
+box-shadow: 0 15px 45px rgba(45,75,125,0.10), inset 0 1px 2px rgba(255,255,255,0.95);">
+<h1 style="color:#17243a !important; margin:0;">📄 PropDoc AI</h1><p style="color:#344d6b; font-size:19px; font-weight:600;">Smart Document Intelligence</p><p style="color:#526780; font-size:15px;">Upload, read, compare and understand any document with Artificial Intelligence.</p>
 </div>
 """, unsafe_allow_html=True)
+
 
 st.info(
     "PropDoc AI provides document-reading assistance, not legal advice. "
