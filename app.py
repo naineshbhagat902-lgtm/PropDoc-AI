@@ -577,11 +577,219 @@ USER QUESTION:
             st.markdown(item["answer"])
 
 
+
 # -------------------------------------------------
-# 9. FOOTER
+# 9. SMART DOCUMENT COMPARISON
 # -------------------------------------------------
+
 st.divider()
-st.caption(
-       "PropDoc AI | Smart Document Intelligence | "
-    "AI output must be checked against original records."
+
+st.header("🔍 Smart Document Comparison")
+
+st.write(
+    "Upload a second PDF to compare it with your "
+    "currently extracted document using Gemini AI."
 )
+
+# Initialize comparison session state
+st.session_state.setdefault("comparison_result", "")
+st.session_state.setdefault("comparison_first_name", "")
+st.session_state.setdefault("comparison_second_name", "")
+
+if st.session_state.extracted_text.strip():
+
+    st.success(
+        f"First Document: {st.session_state.document_name}"
+    )
+
+    second_document = st.file_uploader(
+        "Upload your second document (PDF)",
+        type=["pdf"],
+        key="comparison_second_pdf"
+    )
+
+    if second_document is not None:
+
+        st.info(
+            f"Second Document: {second_document.name}"
+        )
+
+        if st.button(
+            "✨ Compare Both Documents",
+            type="primary",
+            key="compare_documents_button"
+        ):
+
+            try:
+                second_pdf = fitz.open(
+                    stream=second_document.getvalue(),
+                    filetype="pdf"
+                )
+
+                second_text = ""
+
+                with st.spinner(
+                    "Extracting text from the second document..."
+                ):
+
+                    for page_number, page in enumerate(second_pdf):
+
+                        if use_ocr:
+                            pix = page.get_pixmap(
+                                matrix=fitz.Matrix(2, 2),
+                                alpha=False
+                            )
+
+                            image = Image.open(
+                                io.BytesIO(pix.tobytes("png"))
+                            )
+
+                            page_text = pytesseract.image_to_string(
+                                image,
+                                lang=language_codes[language]
+                            )
+
+                        else:
+                            page_text = page.get_text()
+
+                        second_text += (
+                            f"\n\n--- Page {page_number + 1} ---\n\n"
+                            + page_text
+                        )
+
+                second_pdf.close()
+
+                if not second_text.strip():
+                    st.warning(
+                        "No readable text found in the second PDF. "
+                        "Try another PDF or check your OCR settings."
+                    )
+
+                else:
+
+                    first_text = get_document_context()
+
+                    second_text = second_text[
+                        :MAX_DOCUMENT_CHARACTERS
+                    ]
+
+                    comparison_prompt = f"""
+You are PropDoc AI, an expert document comparison assistant.
+
+Compare the following two documents carefully.
+
+DOCUMENT 1:
+{first_text}
+
+DOCUMENT 2:
+{second_text}
+
+Write the comparison in a clear and professional format.
+
+Use these sections:
+
+1. DOCUMENT TYPE
+Identify the type of each document.
+
+2. OVERALL SUMMARY
+Explain the main purpose of both documents.
+
+3. MATCHING INFORMATION
+List information that appears consistent in both documents.
+
+4. DIFFERENCES FOUND
+Identify changed names, dates, amounts, addresses,
+reference numbers, clauses and other important details.
+
+5. MISSING INFORMATION
+Identify important information present in one document
+but not found in the other.
+
+6. POSSIBLE CONFLICTS
+Flag information that appears inconsistent or contradictory.
+
+7. IMPORTANT CHANGES
+Explain the most significant differences in simple language.
+
+8. FINAL COMPARISON SUMMARY
+Explain what the user should manually review.
+
+RULES:
+- Never invent information.
+- Use only the supplied document text.
+- Mention document name and page number when possible.
+- Clearly distinguish confirmed differences from possible concerns.
+- If information is unavailable, write "Not found".
+- Do not claim that either document is authentic or legally valid.
+- Do not provide definitive legal or financial advice.
+
+"""
+
+                    with st.spinner(
+                        "Gemini AI is comparing both documents..."
+                    ):
+
+                        comparison = ask_gemini(
+                            comparison_prompt
+                        )
+
+                    st.session_state.comparison_result = comparison
+
+                    st.session_state.comparison_first_name = (
+                        st.session_state.document_name
+                    )
+
+                    st.session_state.comparison_second_name = (
+                        second_document.name
+                    )
+
+                    st.success(
+                        "Document comparison completed!"
+                    )
+
+            except Exception as error:
+
+                st.error(
+                    "Document comparison could not be completed."
+                )
+
+                st.exception(error)
+
+    # Display comparison only for the current first document
+    if (
+        st.session_state.comparison_result
+        and st.session_state.comparison_first_name
+        == st.session_state.document_name
+    ):
+
+        st.divider()
+
+        st.subheader("📊 Comparison Results")
+
+        st.caption(
+            f"Comparing: "
+            f"{st.session_state.comparison_first_name} "
+            f"vs "
+            f"{st.session_state.comparison_second_name}"
+        )
+
+        st.markdown(
+            st.session_state.comparison_result
+        )
+
+        st.download_button(
+            "📥 Download Comparison Report",
+            data=st.session_state.comparison_result,
+            file_name="propdoc_comparison_report.txt",
+            mime="text/plain",
+            key="download_comparison_report"
+        )
+
+else:
+
+    st.info(
+        "Please upload and extract your first PDF document "
+        "in the Document Workspace before using comparison."
+    )
+
+
