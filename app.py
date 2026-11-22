@@ -700,7 +700,7 @@ RULES:
 """
 
                     with st.spinner(
-                        "Gemini AI is comparing both documents..."
+                        "open AI is comparing both documents..."
                     ):
 
                         comparison = ask_gemini(
