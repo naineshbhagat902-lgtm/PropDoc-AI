@@ -2,7 +2,7 @@ streamlit
 PyMuPDF
 pytesseract
 Pillow
-google-genai
+openai
 
 
 
