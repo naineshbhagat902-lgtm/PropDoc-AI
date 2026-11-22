@@ -387,7 +387,7 @@ st.caption(
     "PropDoc AI | Smart Property Document Analyzer | "
     "AI output must be checked against original records."
 )
-        response = client.models.generate_content(
+    response = client.models.generate_content(
             model=MODEL_NAME,
             contents=prompt,
             config=types.GenerateContentConfig(
