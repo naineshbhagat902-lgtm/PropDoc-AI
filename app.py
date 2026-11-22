@@ -1,11 +1,9 @@
 import io
-import time
 import streamlit as st
 import fitz
 import pytesseract
 from PIL import Image
-from google import genai
-from google.genai import types
+from openai import OpenAI
 
 
 # -------------------------------------------------
@@ -218,82 +216,58 @@ if "chat_history" not in st.session_state:
     st.session_state.chat_history = []
 
 
+
 # -------------------------------------------------
-# 3. GEMINI CONFIGURATION
+# 3. OPENAI CONFIGURATION
 # -------------------------------------------------
-MODEL_NAME = "gemini-3.8-flash"
-FALLBACK_MODEL_NAME = "gemini-3.5-flash-lite"
+
+OPENAI_MODEL = "gpt-5.4-mini"
 MAX_DOCUMENT_CHARACTERS = 60000
 
 
-def get_gemini_client():
-    """Create a Gemini client using the Streamlit secret."""
-    api_key = st.secrets.get("GEMINI_API_KEY", "")
+def get_openai_client():
+    """Create an OpenAI client using Streamlit Secrets."""
+
+    api_key = st.secrets.get("OPENAI_API_KEY", "")
+
     if not api_key:
         raise ValueError(
-            "Gemini API key is missing. Add GEMINI_API_KEY in "
-            "Streamlit Cloud → App settings → Secrets."
+            "OpenAI API key is missing. Add OPENAI_API_KEY "
+            "in Streamlit Cloud → App settings → Secrets."
         )
-    return genai.Client(api_key=api_key)
+
+    return OpenAI(api_key=api_key)
 
 
-def ask_gemini(prompt: str) -> str:
-    """Call Gemini, retry temporary 503 errors, then try a backup model."""
-    client = get_gemini_client()
-    models_to_try = [MODEL_NAME, FALLBACK_MODEL_NAME]
-    last_error = None
+def ask_openai(prompt: str) -> str:
+    """Generate an AI response using OpenAI."""
+
+    client = get_openai_client()
 
     try:
-        for model_name in models_to_try:
-            for attempt in range(2):
-                try:
-                    response = client.models.generate_content(
-                        model=model_name,
-                        contents=prompt,
-                        config=types.GenerateContentConfig(
-                            temperature=0.2,
-                            max_output_tokens=5000,
-                        ),
-                    )
-
-                    answer = (response.text or "").strip()
-                    if not answer:
-                        raise RuntimeError(
-                            f"{model_name} returned an empty response."
-                        )
-                    return answer
-
-                except Exception as error:
-                    last_error = error
-                    error_text = str(error).upper()
-                    error_code = (
-                        getattr(error, "code", None)
-                        or getattr(error, "status_code", None)
-                    )
-                    is_unavailable = (
-                        error_code == 503
-                        or "503" in error_text
-                        or "UNAVAILABLE" in error_text
-                    )
-
-                    # Retry only temporary server-capacity errors.
-                    if not is_unavailable:
-                        raise
-
-                    if attempt == 0:
-                        time.sleep(2)
-
-            # The primary model failed twice with 503; try the backup.
-            continue
-
-        raise RuntimeError(
-            "Gemini is temporarily busy. Both the primary and backup "
-            "models returned a 503 error. Please wait a minute and try again. "
-            f"Last error: {last_error}"
+        response = client.responses.create(
+            model=OPENAI_MODEL,
+            input=prompt,
+            max_output_tokens=5000
         )
+
+        answer = (response.output_text or "").strip()
+
+        if not answer:
+            raise RuntimeError(
+                "OpenAI returned an empty response."
+            )
+
+        return answer
+
+    except Exception as error:
+        raise RuntimeError(
+            f"OpenAI API request failed: {error}"
+        ) from error
 
     finally:
         client.close()
+
 
 
 def get_document_context() -> str:
