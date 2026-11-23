@@ -169,7 +169,7 @@ with st.sidebar:
         <p style="color:#263b58;">💬 AI Assistant</p>
         <hr>
         <p style="color:#687991;font-size:12px;">
-            Powered by Gemini AI
+            Powered by OpenAI
         </p>
     </div>
     """, unsafe_allow_html=True)
@@ -409,7 +409,7 @@ if st.session_state.extracted_text.strip():
     st.divider()
     st.header("🤖 Smart Document Analysis")
     st.write(
-        "Gemini will summarize the extracted text, identify details that "
+        "OpenAI will summarize the extracted text, identify details that "
         "are explicitly present, and flag items that may need manual review."
     )
 
@@ -474,7 +474,7 @@ DOCUMENT TEXT:
 {document_text}
 """
 
-            with st.spinner("Gemini is analyzing your document..."):
+            with st.spinner("OpenAI is analyzing your document..."):
                 result = ask_openai(analysis_prompt)
 
             st.session_state.ai_analysis = result
@@ -562,7 +562,7 @@ st.header("🔍 Smart Document Comparison")
 
 st.write(
     "Upload a second PDF to compare it with your "
-    "currently extracted document using Gemini AI."
+    "currently extracted document using OpenAI."
 )
 
 # Initialize comparison session state
@@ -698,10 +698,10 @@ RULES:
 - Do not provide definitive legal or financial advice.
 
 """
-with st.spinner("OpenAI is comparing both documents..."):
-    comparison = ask_openai(
-        comparison_prompt
-    )
+                with st.spinner("OpenAI is comparing both documents..."):
+                    comparison = ask_openai(
+                        comparison_prompt
+                    )
 
                     st.session_state.comparison_result = comparison
 
@@ -755,9 +755,9 @@ with st.spinner("OpenAI is comparing both documents..."):
             key="download_comparison_report"
         )
 
-else:
+    else:
 
-    st.info(
+        st.info(
         "Please upload and extract your first PDF document "
         "in the Document Workspace before using comparison."
     )
