@@ -1,9 +1,6 @@
-streamlit
+streamlit>=1.40
 PyMuPDF
 pytesseract
 Pillow
-openai
-
-
-
-
+openai>=1.50
+pandas
